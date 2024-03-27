@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout :: head">
+
+  <title>List Tour</title>
+
+</head>
+<body>
+<div class="container">
+  <h1 class="my-3" style="color: red">City Management</h1>
+  <br>
+  <div class="row d-flex mx-3">
+    <div class="col-9">
+      <a class="btn btn-warning" role="button" th:href="@{/city/create}">Add City</a>
+    </div>
+<!--    <div class="col-3">-->
+<!--      <form class="d-flex" role="search" action="" method="post">-->
+<!--        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="country">-->
+<!--        <a class="btn btn-outline-secondary" type="submit">Search</a>-->
+<!--      </form>-->
+<!--    </div>-->
+  </div>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th scope="col">Stt</th>
+      <th scope="col">Name</th>
+      <th scope="col">Country</th>
+      <th scope="col">Description</th>
+      <th scope="col">Area</th>
+      <th scope="col">GDP</th>
+      <th scope="col">Population</th>
+
+      <th scope="col">View</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="ts , Status: ${cities}">
+      <td th:text="${Status.count}"></td>
+      <td th:text="${ts.getName()}"></td>
+      <td th:text="${ts.getCountry().getName()}"></td>
+      <td th:text="${ts.getDescription()}"></td>
+      <td th:text="${ts.getArea()}"></td>
+      <td th:text="${ts.getGdp()}"></td>
+      <td th:text="${ts.getPopulation()}"></td>
+
+      <td>
+        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                th:data-bs-target="'#staticBackdrop' + ${ts.id}">
+          View
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" th:id="staticBackdrop + ${ts.id}" data-bs-backdrop="static"
+             data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabelView" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title text-danger" id="staticBackdropLabelView">Chi tiết!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <h5>
+                  Tên: <span th:text="${ts.name}" class="text-danger"></span>
+                </h5>
+                <h5>
+                  Quốc Gia: <span th:text="${ts.country.name}" class="text-danger"></span>
+                </h5>
+                <h5>
+                  Diện Tích: <span th:text="${ts.area}" class="text-danger"></span>
+                </h5>
+                <h5>
+                  Dân Số: <span th:text="${ts.population}" class="text-danger"></span>
+                </h5>
+                <h5>
+                  GDP: <span th:text="${ts.gdp}" class="text-danger"></span>
+                </h5>
+                <h5>
+                  GDP: <span th:text="${ts.gdp}" class="text-danger"></span>
+                </h5>
+                <h5>
+                  Giới thiệu: <span th:text="${ts.description}" class="text-danger"></span>
+                </h5>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Quay Lại
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+      <td>
+        <a class="btn btn-warning" role="button" th:href="@{/city/edit/{id}(id=${ts.getId()})}">Edit</a>
+      </td>
+      <td>
+<!--        <a class="btn btn-warning" role="button" th:href="@{/city/delete/{id}(id=${ts.getId()})}">Delete</a>-->
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                th:data-bs-target="'#staticBackdrop' + ${ts.id}">
+          Delete
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" th:id="staticBackdrop + ${ts.id}" data-bs-backdrop="static"
+             data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title text-danger" id="staticBackdropLabel">Xoá Thành Phố!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                 Bạn có chắc muốn xoá <span th:text="${ts.name}" class="text-danger"></span> ?
+              </div>
+              <div class="modal-footer">
+                <a href="" th:href="@{/city/delete/{id}(id=${ts.id})}"
+                   class="btn btn-outline-success">Delete</a>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<footer th:replace="/layout :: footer"></footer>
+</body>
+</html>
